@@ -419,6 +419,24 @@
       const music = document.getElementById("bgMusic");
       music.muted = !music.muted;
     }
+    // 监听所有视频的播放和暂停，控制背景音乐
+document.addEventListener("DOMContentLoaded", function () {
+  const music = document.getElementById("bgMusic");
+  const videos = document.querySelectorAll("video");
+
+  videos.forEach(video => {
+    video.addEventListener("play", () => {
+      if (!music.paused) music.pause();
+    });
+    video.addEventListener("pause", () => {
+      if (music.paused) music.play();
+    });
+    video.addEventListener("ended", () => {
+      if (music.paused) music.play();
+    });
+  });
+});
+
   </script>
 </body>
 </html>
