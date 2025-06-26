@@ -217,7 +217,7 @@
         <input id="yourDay" placeholder="日">日
       </div>
       <div style="margin-top: 10px;">
-        他的生日：
+        她的生日：
         <input id="herYear" placeholder="年">年
         <input id="herMonth" placeholder="月">月
         <input id="herDay" placeholder="日">日
@@ -463,10 +463,25 @@
         el.classList.add("hidden");
         el.classList.remove("fade-in");
       });
+
       const active = document.getElementById(pageId);
       active.classList.remove("hidden");
       active.classList.add("fade-in");
+
+      // 👇 如果是 timelinePage，重触发所有 timeline-item 的动画
+      if (pageId === "timelinePage") {
+        document.querySelectorAll(".timeline-item").forEach(item => {
+          item.style.opacity = "0";
+          item.style.transform = "translateY(30px)";
+          item.style.animation = "none";
+
+          // 强制重绘后再加动画，触发动画播放
+          void item.offsetWidth;  // 触发 reflow
+          item.style.animation = "slideUp 0.6s ease forwards";
+        });
+      }
     }
+
 
 
     function toggleMusic() {
