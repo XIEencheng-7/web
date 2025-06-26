@@ -137,16 +137,65 @@
         padding: 15px;
     }
     }
+    /* 动画：渐入渐出效果 */
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    .timeline-item {
+      animation: slideUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #musicPrompt {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background-color: #ff80ab;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-size: 14px;
+      z-index: 998;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+
+
 
   </style>
 </head>
 <body>
 
   <!-- 🎵 音乐播放器 -->
-  <audio id="bgMusic" autoplay loop muted>
+  <audio id="bgMusic" loop muted>
     <source src="music/1.mp3" type="audio/mpeg" />
   </audio>
   <button id="music-btn" onclick="toggleMusic()">🎵</button>
+  <!-- 🎵 音乐提示引导 -->
+  <button id="musicPrompt" onclick="startMusic()">点击开启音乐 🎵</button>
+
 
   <!-- 📄 首页 -->
   <div class="container" id="homePage">
@@ -410,10 +459,15 @@
     function showPage(pageId) {
       const pages = ["homePage", "timelinePage", "letterPage"];
       pages.forEach(id => {
-        document.getElementById(id).classList.add("hidden");
+        const el = document.getElementById(id);
+        el.classList.add("hidden");
+        el.classList.remove("fade-in");
       });
-      document.getElementById(pageId).classList.remove("hidden");
+      const active = document.getElementById(pageId);
+      active.classList.remove("hidden");
+      active.classList.add("fade-in");
     }
+
 
     function toggleMusic() {
       const music = document.getElementById("bgMusic");
@@ -436,6 +490,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+  function startMusic() {
+    const music = document.getElementById("bgMusic");
+    music.muted = false;
+    music.play().catch(() => {}); // 防止报错
+    document.getElementById("musicPrompt").style.display = "none";
+  }
+
 
   </script>
 </body>
