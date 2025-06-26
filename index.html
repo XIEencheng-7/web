@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>我们的一周年纪念</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+    h1 {
+      color: #e91e63;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+    .hidden {
+      display: none;
+    }
+    input {
+      width: 60px;
+      padding: 8px;
+      font-size: 16px;
+      margin: 0 4px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #e91e63;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin: 10px 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+    }
+    .timeline-item {
+      margin-bottom: 50px;
+      border-left: 4px solid #e91e63;
+      padding-left: 20px;
+      position: relative;
+      text-align: left;
+    }
+    .timeline-item::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background-color: #e91e63;
+      border-radius: 50%;
+      position: absolute;
+      left: -9px;
+      top: 5px;
+    }
+    .timeline-date {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .timeline-photo {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 10px;
+    }
+
+    /* 音乐按钮 */
+    #music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    /* 情书样式 */
+    .love-letter {
+        font-family: '楷体', 'STKaiti', 'Georgia', serif; /* 设置中文楷体和西文衬线体 */
+        font-size: 20px;             /* 字体大小20px */
+        line-height: 1.8;            /* 行高1.8 */
+        color: #a94442;              /* 暖色调字体颜色 */
+        background: #fff0f3;         /* 淡粉色背景 */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(169, 68, 66, 0.3);
+        white-space: pre-wrap;
+        font-style: italic;          /* 斜体 */
+    }
+    /* 手机屏幕优化 */
+    @media (max-width: 600px) {
+    body, .container {
+        padding: 20px 10px;
+        max-width: 100%;
+        }
+    input {
+        width: 40px;
+        font-size: 14px;
+        margin: 0 2px;
+    }
+    button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .timeline-item {
+        padding-left: 15px;
+    }
+    .timeline-date {
+        font-size: 14px;
+    }
+    .love-letter {
+        font-size: 16px;
+        padding: 15px;
+    }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 音乐播放器 -->
+  <audio id="bgMusic" autoplay loop muted>
+    <source src="music/1.mp3" type="audio/mpeg" />
+  </audio>
+  <button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+  <!-- 📄 首页 -->
+  <div class="container" id="homePage">
+    <h1>亲爱的黄希怡</h1>
+    <p>今天是我们在一起的一周年纪念日❤️</p>
+    <p>感谢你出现在我的生命里</p>
+    <p>一直想做一个网站</p>
+    <p>记录我们的点点滴滴</p>
+    <p>但由于技术原因始终没能落实</p>
+    <p>终于! 我鼓起勇气向 GPT 老师请教</p>
+    <p>完成了这个拙劣的网站</p>
+
+    <div style="margin-top: 30px;">
+      <p><strong>请输入我们的生日以进入纪念馆 🎂</strong></p>
+      <div>
+        你的生日：
+        <input id="yourYear" placeholder="年">年
+        <input id="yourMonth" placeholder="月">月
+        <input id="yourDay" placeholder="日">日
+      </div>
+      <div style="margin-top: 10px;">
+        她的生日：
+        <input id="herYear" placeholder="年">年
+        <input id="herMonth" placeholder="月">月
+        <input id="herDay" placeholder="日">日
+      </div>
+      <button onclick="checkBirthday()">进入我们的纪念馆 →</button>
+      <div id="error" class="error"></div>
+    </div>
+  </div>
+
+  <!-- 📅 时间线 -->
+  <div class="container hidden" id="timelinePage">
+    <h1>我们的时间线</h1>
+    <div class="timeline-item">
+    <div class="timeline-date">“橙花柑橘味的夏天”❤️</div>
+    <img src="images/10.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+  
+  <div class="timeline-item">
+    <div class="timeline-date">2024.07.04 —— 我们在一起啦！❤️</div>
+    <img src="images/1.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.07.05 —— 明明刚在一起宝宝酱就要和我分开去推普</div>
+    <img src="images/2.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.07.06 —— 宝宝走之前给我买了巧克力肉桂面包</div>
+    <img src="images/3.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.07.20 —— 宝宝给我写的第一封信❤️</div>
+    <img src="images/4.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+  <div class="timeline-date">2024.07.20 —— 宝宝留给我的思念 💕</div>
+  <video controls class="timeline-photo">
+    <source src="videos/2.mp4" type="video/mp4">
+  </video>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.08.07 —— 异地恋开始 宝宝给我点奶茶</div>
+    <img src="images/5.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+  <div class="timeline-date">2024.08.30 —— 见到宝宝了 拍的奇奇怪怪视频 💕</div>
+  <video controls class="timeline-photo">
+    <source src="videos/1.mp4" type="video/mp4">
+  </video>
+  </div>
+
+  <div class="timeline-item">
+  <div class="timeline-date">2024.09.02 —— 去吃百果园 宝宝像老人</div>
+  <video controls class="timeline-photo">
+    <source src="videos/3.mp4" type="video/mp4">
+  </video>
+  </div>
+
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.09.08 —— 白天去拍视频 晚上按脚 宝宝像猪猪一样</div>
+    <img src="images/6.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+  
+  <div class="timeline-item">
+    <div class="timeline-date">2024.09.25 —— 这张宝宝好美❤️</div>
+    <img src="images/7.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.09.26 —— 第一张照片~不太敢亲密的~</div>
+    <img src="images/8.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.10.05 —— 黄洗衣嫁到鞍山！欣宜陪希怡弄牙</div>
+    <img src="images/9.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.10.19 —— 第一次合体</div>
+    <img src="images/11.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+  
+  <div class="timeline-item">
+    <div class="timeline-date">2024.10.23 —— 抹茶炒酸奶</div>
+    <img src="images/12.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.10.31 —— 迪士尼！启动！</div>
+    <img src="images/13.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.11.05 —— 不可名状</div>
+    <img src="images/14.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+ <div class="timeline-item">
+    <div class="timeline-date">2024.12.08 —— 两只猪</div>
+    <img src="images/15.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024.12.25 —— 环球！启动！</div>
+    <img src="images/16.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+  
+  <div class="timeline-item">
+    <div class="timeline-date">2025.01.01 —— 宝宝生日+1</div>
+    <img src="images/17.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.02.04 —— 又异地了宝宝猪</div>
+    <img src="images/18.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.02.23 —— 见面就睡...</div>
+    <img src="images/19.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.01.01 —— 宝宝生日+1</div>
+    <img src="images/17.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.02.04 —— 又异地了宝宝猪</div>
+    <img src="images/18.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.02.23 —— 见面就睡...</div>
+    <img src="images/19.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.03.20 —— 二战环球</div>
+    <img src="images/20.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.03.25 —— 给宝宝拍照没拍好 宝宝哭了呜呜呜</div>
+    <img src="images/21.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.04.06 —— 货比三家的人</div>
+    <img src="images/22.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.05.12 —— 宝宝送我的云南猫</div>
+    <img src="images/23.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.05.20 —— 史密斯夫妇</div>
+    <img src="images/24.jpg" alt="第一次旅行" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.05.29 —— 想一拳打死</div>
+    <img src="images/25.jpg" alt="圣诞节" class="timeline-photo">
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025.06.02 —— 追梦少女</div>
+    <img src="images/26.jpg" alt="在一起那天" class="timeline-photo">
+  </div>
+
+    <!-- 时间线页底部情书按钮 -->
+    <button onclick="showPage('letterPage')">💌 读情书</button>
+  </div>
+
+  <!-- 💌 情书页 -->
+  <div class="container hidden" id="letterPage">
+    <h1>写给你的话 💌</h1>
+    <div class="love-letter">
+亲爱的黄希怡：
+
+认识你之后，世界变得柔软可爱了起来。
+
+我总想记录每一次我们的小事，每一次你粘着我说“宝宝酱宝宝酱”，我都特别特别开心。
+
+这一年我们经历了分别与相聚，有眼泪也有笑声，但我从没后悔遇见你。
+
+写这个网站时我笨拙又认真，就像我爱你那样，没那么花哨，但很坚定。
+
+希望未来的很多很多个“一周年”，我们都能一起过。
+
+爱你的 🍊
+
+2025.07.04
+    </div>
+
+    <button onclick="showPage('timelinePage')">← 回时间线</button>
+  </div>
+
+  <script>
+    function checkBirthday() {
+      const yourYear = document.getElementById("yourYear").value.trim();
+      const yourMonth = document.getElementById("yourMonth").value.trim();
+      const yourDay = document.getElementById("yourDay").value.trim();
+      const herYear = document.getElementById("herYear").value.trim();
+      const herMonth = document.getElementById("herMonth").value.trim();
+      const herDay = document.getElementById("herDay").value.trim();
+
+      const correct = {
+        your: { y: "2004", m: "12", d: "31" },
+        her:  { y: "2004", m: "02", d: "29" }
+      };
+
+      if (
+        yourYear === correct.your.y &&
+        yourMonth === correct.your.m &&
+        yourDay === correct.your.d &&
+        herYear === correct.her.y &&
+        herMonth === correct.her.m &&
+        herDay === correct.her.d
+      ) {
+        showPage("timelinePage");
+        document.getElementById("error").textContent = "";
+      } else {
+        document.getElementById("error").textContent = "生日错啦，再认真想想看喔~ 🥺";
+      }
+    }
+
+    function showPage(pageId) {
+      const pages = ["homePage", "timelinePage", "letterPage"];
+      pages.forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
+      document.getElementById(pageId).classList.remove("hidden");
+    }
+
+    function toggleMusic() {
+      const music = document.getElementById("bgMusic");
+      music.muted = !music.muted;
+    }
+  </script>
+</body>
+</html>
